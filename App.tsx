@@ -18,18 +18,20 @@ function Elt(): JSX.Element {
   const test = useCallback(() => {
     console.log('call ajax loop', loopIdx);
     return ajax({
-      url: 'https://youtube.com/',
+      url: 'https://youtube.com',
+      //url: 'https://slashdot.com',
       method: 'GET',
-    }).subscribe(
-      () => {
+    }).subscribe({
+      next: () => {
         console.log('result');
         setLoopIdx(loopIdx + 1);
+        gc();
       },
-      _error => {
+      error: _error => {
         setLoopIdx(loopIdx + 1);
-        console.log('error');
+        console.log('error', _error);
       },
-    );
+    });
   }, [loopIdx]);
 
   useEffect(() => {
